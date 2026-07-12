@@ -1,0 +1,1622 @@
+/* ═══════════════════════════════════════════════
+   FluxLight — style.css  v2.0
+   Dark smart lighting UI · Premium design
+   ═══════════════════════════════════════════════ */
+
+/* Variáveis de cor e medidas usadas em toda a app.
+   Mudar aqui muda o aspeto em todo o lado (ex: --accent = cor laranja principal). */
+:root {
+  --bg-base:       #0a0a0f;
+  --bg-surface:    #12121a;
+  --bg-card:       #1a1a26;
+  --bg-card-hover: #1f1f30;
+  --bg-input:      #0f0f18;
+  --border:        rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.13);
+  --accent:        #f97316;
+  --accent-glow:   rgba(249,115,22,0.35);
+  --accent-dim:    rgba(249,115,22,0.15);
+  --accent2:       #facc15;
+  --text-primary:  #f0f0f8;
+  --text-secondary:#8888aa;
+  --text-muted:    #55556a;
+  --on:  #22c55e;
+  --off: #ef4444;
+  --sidebar-w: 230px;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --trans: 0.2s ease;
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 62% 18%, rgba(249,115,22,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 35% at 10% 85%, rgba(250,204,21,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 88% 78%, rgba(139,92,246,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 20% at 50% 100%, rgba(249,115,22,0.05) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+/* Linha brilho topo — efeito premium */
+body::after {
+  content:'';
+  position:fixed; top:0; left:var(--sidebar-w); right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(249,115,22,0.5) 30%, rgba(250,204,21,0.4) 60%, transparent);
+  pointer-events:none; z-index:2;
+}
+
+/* ─── SPLASH SCREEN — o ecrã de abertura animado ─── */
+.splash {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-base);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.splash-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(249,115,22,0.12) 0%, transparent 70%);
+  animation: splashPulse 3s ease-in-out infinite;
+}
+
+@keyframes splashPulse {
+  0%,100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.splash-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.splash-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  text-align: center;
+}
+
+.splash-logo-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  animation: splashFloat 3s ease-in-out infinite;
+}
+
+@keyframes splashFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.splash-svg {
+  width: 80px; height: 80px;
+  filter: drop-shadow(0 0 20px rgba(249,115,22,0.6));
+  animation: splashGlow 2s ease-in-out infinite;
+}
+
+@keyframes splashGlow {
+  0%,100% { filter: drop-shadow(0 0 20px rgba(249,115,22,0.6)); }
+  50% { filter: drop-shadow(0 0 40px rgba(250,204,21,0.8)); }
+}
+
+.splash-glow {
+  position: absolute; inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);
+  animation: splashPulse 2s ease-in-out infinite;
+}
+
+.splash-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px; font-weight: 800;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  animation: splashFadeUp 0.8s 0.3s ease forwards;
+}
+
+.splash-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: splashFadeUp 0.8s 0.6s ease forwards;
+}
+
+.splash-bar-wrap {
+  width: 240px; height: 3px;
+  background: var(--bg-card);
+  border-radius: 2px; overflow: hidden;
+  opacity: 0;
+  animation: splashFadeUp 0.8s 0.9s ease forwards;
+}
+
+.splash-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.splash-msg {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: splashFadeUp 0.8s 1.2s ease forwards;
+}
+
+@keyframes splashFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SIDEBAR — o menu lateral esquerdo ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: linear-gradient(180deg, #16161f 0%, #11111a 50%, #0e0e16 100%);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; left:0; top:0; bottom:0;
+  z-index: 100;
+  transition: transform var(--trans);
+}
+
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 22px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-icon svg { width:32px; height:32px; }
+
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 20px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── LANGUAGE SELECTOR — os botões das bandeiras de idioma ─── */
+.lang-selector {
+  display: flex; align-items: center;
+  justify-content: center; gap: 4px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lang-btn {
+  width: 32px; height: 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--trans);
+  display: grid; place-items: center;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.lang-btn:hover { background: var(--bg-card); opacity: 1; }
+
+.lang-btn.active {
+  opacity: 1;
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ─── NAV — os itens de navegação do menu (Dashboard, Fita...) ─── */
+.sidebar-nav {
+  flex: 1; display: flex; flex-direction: column;
+  gap: 2px; padding: 12px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none; font-size: 14px; font-weight: 500;
+  transition: all var(--trans); position: relative;
+}
+
+.nav-item i { width:18px; height:18px; flex-shrink:0; }
+.nav-item:hover { color: var(--text-primary); background: var(--bg-card); }
+.nav-item.active { color: var(--accent); background: var(--accent-dim); }
+.nav-item.active::before {
+  content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+  width:3px; height:20px; background:var(--accent); border-radius:0 4px 4px 0;
+}
+
+.sidebar-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.connection-status {
+  display: flex; align-items: center; gap:8px;
+  font-size: 12px; color: var(--text-secondary);
+}
+
+.status-dot {
+  width:8px; height:8px; border-radius:50%;
+  background: var(--off); flex-shrink:0;
+  animation: pulseDot 2s infinite;
+}
+
+.status-dot.connected { background: var(--on); }
+.status-dot.connecting { background: var(--accent2); }
+
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ─── MAIN — a área principal à direita do menu ─── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex:1; display:flex; flex-direction:column;
+  min-height:100vh; position:relative; z-index:1;
+}
+
+/* ─── TOPBAR — a barra de cima (título + botões de refrescar/mestre) ─── */
+.topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 22px 32px 0; gap:16px;
+}
+
+.page-title {
+  font-family:'Syne',sans-serif;
+  font-size:26px; font-weight:700; letter-spacing:-0.5px;
+}
+
+.page-sub { font-size:13px; color:var(--text-muted); margin-top:2px; }
+
+.topbar-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+
+.btn-icon {
+  width:42px; height:42px; border-radius:10px;
+  border:1px solid var(--border); background:var(--bg-card);
+  color:var(--text-secondary); display:grid; place-items:center;
+  cursor:pointer; transition:all var(--trans);
+}
+
+.btn-icon:hover { color:var(--text-primary); background:var(--bg-card-hover); }
+.btn-icon i { width:18px; height:18px; }
+.master-toggle { color:var(--off); border-color:rgba(239,68,68,0.3); }
+.master-toggle.on { color:var(--on); border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.08); }
+
+/* ─── SECTIONS — regras comuns a todas as secções (mostrar/esconder) ─── */
+.section { padding:22px 32px 40px; animation:fadeIn 0.3s ease; }
+.section.hidden { display:none; }
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.section-title {
+  font-family:'Syne',sans-serif; font-size:13px; font-weight:700;
+  letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--text-muted); margin:24px 0 12px;
+}
+
+.section-title:first-child { margin-top:0; }
+.section-desc { color:var(--text-secondary); font-size:14px; margin-bottom:18px; }
+
+/* ─── STATS — os cartões de estado do Dashboard ─── */
+.stats-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:12px; margin-bottom:6px;
+}
+
+.stat-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:16px;
+  display:flex; align-items:center; gap:12px;
+  position:relative; overflow:hidden; transition:border-color var(--trans);
+}
+
+.stat-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(249,115,22,0.04));
+  pointer-events:none;
+}
+
+.stat-icon {
+  width:38px; height:38px; border-radius:10px;
+  display:grid; place-items:center; flex-shrink:0;
+}
+
+.stat-icon i { width:18px; height:18px; }
+.led-icon   { background:rgba(249,115,22,0.15); color:var(--accent); }
+.bulb-icon  { background:rgba(250,204,21,0.12); color:var(--accent2); }
+.fx-icon    { background:rgba(99,102,241,0.15);  color:#818cf8; }
+.flag-icon  { background:rgba(34,197,94,0.12);   color:var(--on); }
+
+.stat-info { display:flex; flex-direction:column; flex:1; }
+.stat-label { font-size:12px; color:var(--text-muted); font-weight:500; }
+.stat-value { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; margin-top:2px; }
+.stat-indicator { width:8px; height:8px; border-radius:50%; background:var(--off); flex-shrink:0; }
+.stat-indicator.on { background:var(--on); box-shadow:0 0 6px var(--on); }
+
+/* ─── QUICK GRID — os cartões de controlo rápido ─── */
+.quick-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; margin-bottom:6px;
+}
+
+.quick-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px 14px;
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+  cursor:pointer; transition:all var(--trans); text-align:center;
+}
+
+.quick-card:hover {
+  border-color:var(--border-strong); background:var(--bg-card-hover);
+  transform:translateY(-2px);
+}
+
+.quick-card span { font-weight:500; font-size:14px; }
+.quick-card small { font-size:12px; color:var(--text-muted); }
+
+.quick-preview {
+  width:48px; height:48px; border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  animation:colorShift 4s infinite;
+}
+
+.bulb-preview, .flag-preview {
+  background:var(--bg-input); border:1px solid var(--border);
+  display:grid; place-items:center; color:var(--accent2);
+}
+
+.bulb-preview i, .flag-preview i { width:22px; height:22px; }
+
+@keyframes colorShift {
+  0%   { background:linear-gradient(135deg,#ff2200,#ff8800); }
+  25%  { background:linear-gradient(135deg,#ff8800,#ffee00); }
+  50%  { background:linear-gradient(135deg,#00ff44,#00aaff); }
+  75%  { background:linear-gradient(135deg,#aa00ff,#ff0055); }
+  100% { background:linear-gradient(135deg,#ff2200,#ff8800); }
+}
+
+/* ─── SCENES — os botões das cenas (Relaxar, Foco...) ─── */
+.scene-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:10px;
+}
+
+.scene-btn {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:16px 10px;
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+  cursor:pointer; color:var(--text-primary);
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+  transition:all var(--trans);
+}
+
+.scene-btn:hover {
+  background:var(--bg-card-hover); border-color:var(--accent);
+  box-shadow:0 0 14px var(--accent-glow); transform:translateY(-2px);
+}
+
+.scene-emoji { font-size:26px; }
+
+/* ─── CONTROL CARDS — os cartões de controlo da fita e das lâmpadas ─── */
+.control-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px; margin-bottom:16px;
+  transition:border-color var(--trans);
+}
+
+.control-card:hover { border-color:var(--border-strong); }
+
+.control-card-header {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:14px; margin-bottom:16px;
+}
+
+.device-info { display:flex; align-items:center; gap:12px; }
+
+.device-icon {
+  width:42px; height:42px; border-radius:10px;
+  background:var(--accent-dim); color:var(--accent);
+  display:grid; place-items:center; flex-shrink:0;
+}
+
+.device-icon i { width:20px; height:20px; }
+.all-icon { background:rgba(99,102,241,0.15); color:#818cf8; }
+.bulb-led.on { color:var(--accent2); background:rgba(250,204,21,0.15); }
+
+.device-info strong { display:block; font-weight:600; font-size:15px; }
+.device-info small  { font-size:12px; color:var(--text-muted); }
+
+/* ─── TOGGLE — os interruptores ON/OFF deslizantes ─── */
+.toggle-switch { position:relative; display:inline-block; flex-shrink:0; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+
+.toggle-track {
+  display:block; width:50px; height:27px;
+  background:var(--bg-input); border:1px solid var(--border-strong);
+  border-radius:100px; cursor:pointer; position:relative;
+  transition:background var(--trans),border-color var(--trans);
+}
+
+.toggle-track::after {
+  content:''; position:absolute; top:3px; left:3px;
+  width:19px; height:19px; border-radius:50%;
+  background:var(--text-muted);
+  transition:transform var(--trans),background var(--trans);
+}
+
+.toggle-switch input:checked + .toggle-track { background:var(--accent); border-color:var(--accent); }
+.toggle-switch input:checked + .toggle-track::after { transform:translateX(23px); background:#fff; }
+
+/* ─── COLOR PREVIEW BAR — a barrinha que mostra a cor atual ─── */
+.color-preview-bar {
+  height:5px; border-radius:3px;
+  background:#ff6a00; margin:-4px 0 16px;
+  transition:background 0.4s ease;
+}
+
+/* ─── CONTROL SECTIONS — blocos de cor/brilho dentro dos cartões ─── */
+.control-section { margin-bottom:18px; }
+.control-section:last-child { margin-bottom:0; }
+
+.ctrl-label {
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:13px; font-weight:500; color:var(--text-secondary); margin-bottom:9px;
+}
+
+.ctrl-value { font-family:'Syne',sans-serif; font-weight:700; color:var(--accent); font-size:13px; }
+
+.color-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+
+.color-wheel {
+  width:50px; height:50px; border:none; border-radius:12px;
+  cursor:pointer; background:none; padding:2px; flex-shrink:0;
+}
+
+.color-wheel::-webkit-color-swatch-wrapper { padding:0; border-radius:10px; }
+.color-wheel::-webkit-color-swatch { border:2px solid var(--border-strong); border-radius:10px; }
+
+.color-swatches { display:flex; gap:7px; flex-wrap:wrap; }
+
+.swatch {
+  width:26px; height:26px; border-radius:50%;
+  border:2px solid transparent; background:var(--c);
+  cursor:pointer; transition:all var(--trans); outline:none;
+}
+
+.swatch:hover { transform:scale(1.2); border-color:rgba(255,255,255,0.5); }
+
+/* ─── SLIDER — as barras deslizantes (brilho) ─── */
+.slider {
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:5px; border-radius:3px;
+  background:var(--bg-input); border:1px solid var(--border);
+  outline:none; cursor:pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:20px; height:20px;
+  border-radius:50%; background:var(--accent);
+  box-shadow:0 0 8px var(--accent-glow); cursor:pointer;
+  border:3px solid var(--bg-card); transition:transform var(--trans);
+}
+
+.slider::-webkit-slider-thumb:hover { transform:scale(1.2); }
+
+/* ─── EFFECTS GRID — a grelha de botões dos efeitos ─── */
+.effects-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+  gap:12px; margin-bottom:22px;
+}
+
+.effect-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px 14px;
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+  cursor:pointer; color:var(--text-primary);
+  font-family:'DM Sans',sans-serif; transition:all var(--trans);
+  position:relative; overflow:hidden; text-align:center;
+}
+
+.effect-card:hover {
+  border-color:var(--accent); background:var(--bg-card-hover);
+  box-shadow:0 0 20px var(--accent-glow); transform:translateY(-3px);
+}
+
+.effect-card.active {
+  border-color:var(--accent); background:var(--accent-dim);
+  box-shadow:0 0 24px var(--accent-glow);
+}
+
+.effect-card i { width:26px; height:26px; color:var(--accent); }
+.effect-card span { font-weight:600; font-size:15px; }
+.effect-card small { font-size:12px; color:var(--text-muted); }
+
+/* Effect animations */
+.effect-anim {
+  width:100%; height:4px; border-radius:2px;
+  position:absolute; top:0; left:0;
+}
+
+.rainbow-anim { background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0000ff,#8800ff,#ff0000); background-size:200%; animation:slideRainbow 2s linear infinite; }
+.disco-anim   { background:#ff00ff; animation:discoFlash 0.3s steps(1) infinite; }
+.fire-anim    { background:linear-gradient(90deg,#ff0000,#ff6600,#ffcc00); animation:firePulse 1s ease-in-out infinite; }
+.pulse-anim   { background:var(--accent); animation:pulseGlow 1.5s ease-in-out infinite; }
+.wave-anim    { background:linear-gradient(90deg,transparent,#00aaff,transparent); background-size:200%; animation:waveSlide 1.5s linear infinite; }
+.fade-anim    { animation:fadeColors 3s linear infinite; }
+
+@keyframes slideRainbow { from{background-position:0%} to{background-position:200%} }
+@keyframes discoFlash {
+  0%{background:#ff0000} 16%{background:#ff8800} 33%{background:#ffff00}
+  50%{background:#00ff00} 66%{background:#0000ff} 83%{background:#ff00ff}
+}
+@keyframes firePulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+@keyframes pulseGlow { 0%,100%{opacity:0.3} 50%{opacity:1} }
+@keyframes waveSlide { from{background-position:-100%} to{background-position:300%} }
+@keyframes fadeColors {
+  0%{background:#ff2200} 25%{background:#00ff44}
+  50%{background:#0088ff} 75%{background:#aa00ff} 100%{background:#ff2200}
+}
+
+/* ─── FLAGS GRID — a grelha das bandeiras ─── */
+.flags-grid {
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:12px; margin-bottom:22px;
+}
+
+.flag-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:0 0 12px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  cursor:pointer; color:var(--text-primary);
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+  transition:all var(--trans); overflow:hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+.flag-card:hover {
+  border-color:rgba(249,115,22,0.4);
+  transform:translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 14px rgba(249,115,22,0.15);
+}
+
+.flag-card.active {
+  border-color:var(--accent);
+  box-shadow:0 0 22px rgba(249,115,22,0.35);
+}
+
+.flag-preview {
+  width:100%; height:60px;
+  position:relative; overflow:hidden;
+  flex-shrink:0;
+}
+
+.flag-name { font-size:12px; font-weight:600; color:var(--text-primary); }
+
+/* ═══ BANDEIRAS — CSS preciso com cores corretas ═══ */
+
+/* Portugal: Verde | Amarelo | Vermelho (vertical 38/24/38) */
+.pt-flag { background:linear-gradient(90deg, #006600 38%, #ffcc00 38% 62%, #cc0000 62%); }
+
+/* Brasil: Verde fundo, losango amarelo, círculo azul+branco */
+.br-flag {
+  background: #009c3b;
+  position: relative;
+}
+.br-flag::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(90deg, transparent 12%, #ffdf00 12% 88%, transparent 88%);
+  clip-path: polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);
+}
+.br-flag::after {
+  content:''; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:18px; height:18px; border-radius:50%;
+  background:#002776;
+  box-shadow:0 0 0 3px #fff;
+}
+
+/* Espanha: Vermelho | Amarelo | Vermelho (horizontal 1/2/1) */
+.es-flag { background:linear-gradient(180deg, #c60b1e 25%, #ffc400 25% 75%, #c60b1e 75%); }
+
+/* França: Azul | Branco | Vermelho (vertical) */
+.fr-flag { background:linear-gradient(90deg, #002395 33%, #fff 33% 66%, #ed2939 66%); }
+
+/* Alemanha: Preto | Vermelho | Amarelo (horizontal) */
+.de-flag { background:linear-gradient(180deg, #000 33%, #dd0000 33% 66%, #ffce00 66%); }
+
+/* Itália: Verde | Branco | Vermelho (vertical) */
+.it-flag { background:linear-gradient(90deg, #009246 33%, #fff 33% 66%, #ce2b37 66%); }
+
+/* Reino Unido: Azul base com cruz branca e vermelha */
+.gb-flag { background:#012169; position:relative; }
+.gb-flag::before {
+  content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(#fff 0 0) center/100% 30% no-repeat,
+    linear-gradient(#fff 0 0) center/20% 100% no-repeat,
+    linear-gradient(to bottom right, transparent calc(50% - 6px), #fff calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px)),
+    linear-gradient(to bottom left,  transparent calc(50% - 6px), #fff calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px));
+}
+.gb-flag::after {
+  content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(#c8102e 0 0) center/100% 15% no-repeat,
+    linear-gradient(#c8102e 0 0) center/10% 100% no-repeat,
+    linear-gradient(to bottom right, transparent calc(50% - 3px), #c8102e calc(50% - 3px) calc(50% + 3px), transparent calc(50% + 3px)),
+    linear-gradient(to bottom left,  transparent calc(50% - 3px), #c8102e calc(50% - 3px) calc(50% + 3px), transparent calc(50% + 3px));
+}
+
+/* EUA: Vermelho | Branco | Azul — listras + cantão azul */
+.us-flag {
+  background:
+    repeating-linear-gradient(180deg, #b22234 0%, #b22234 7.69%, #fff 7.69%, #fff 15.38%);
+  position:relative;
+}
+.us-flag::after {
+  content:''; position:absolute; top:0; left:0;
+  width:40%; height:53.85%;
+  background:#3c3b6e;
+}
+
+/* Japão: Branco com círculo vermelho central */
+.jp-flag { background:#fff; position:relative; }
+.jp-flag::after {
+  content:''; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:28px; height:28px; border-radius:50%;
+  background:#bc002d;
+}
+
+/* ─── STOP BUTTON — o botão de parar efeito/bandeira ─── */
+.btn-stop-effect {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 20px;
+  background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3);
+  border-radius:var(--radius-sm); color:var(--off);
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+  cursor:pointer; transition:all var(--trans);
+}
+
+.btn-stop-effect:hover { background:rgba(239,68,68,0.2); border-color:var(--off); }
+.btn-stop-effect i { width:15px; height:15px; }
+
+/* ─── BTN GROUP — grupos de botões ON/OFF ─── */
+.btn-group { display:flex; gap:8px; }
+
+.btn-sm {
+  padding:8px 14px; border-radius:var(--radius-sm);
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+  cursor:pointer; border:1px solid; transition:all var(--trans);
+}
+
+.btn-on  { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.4); color:var(--on); }
+.btn-off { background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.3); color:var(--off); }
+.btn-on:hover  { background:rgba(34,197,94,0.2); }
+.btn-off:hover { background:rgba(239,68,68,0.2); }
+
+/* ─── SETTINGS — o aspeto da secção Definições ─── */
+.settings-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px; margin-bottom:16px;
+}
+
+.settings-card h3 {
+  font-family:'Syne',sans-serif; font-size:16px; font-weight:700; margin-bottom:5px;
+}
+
+.settings-note { font-size:12px; color:var(--text-muted); margin-bottom:16px; }
+.settings-note code {
+  background:var(--bg-input); padding:1px 6px; border-radius:4px;
+  font-size:12px; color:var(--accent); border:1px solid var(--border);
+}
+
+.settings-field { margin-bottom:14px; }
+.settings-field:last-child { margin-bottom:0; }
+
+.settings-field label {
+  display:block; font-size:13px; color:var(--text-secondary); margin-bottom:5px;
+}
+
+.settings-row { display:flex; align-items:center; gap:10px; }
+
+.code-tag {
+  display:inline-block; background:var(--bg-input);
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  padding:7px 12px; font-family:'Courier New',monospace;
+  font-size:13px; color:var(--accent2); flex:1;
+}
+
+.btn-edit {
+  padding:6px 12px; border-radius:var(--radius-sm);
+  background:var(--accent-dim); border:1px solid rgba(249,115,22,0.3);
+  color:var(--accent); font-size:13px; cursor:pointer;
+  transition:all var(--trans); font-family:'DM Sans',sans-serif;
+}
+
+.btn-edit:hover { background:rgba(249,115,22,0.25); }
+
+.settings-input {
+  width:100%; margin-top:6px; padding:8px 12px;
+  background:var(--bg-input); border:1px solid var(--accent);
+  border-radius:var(--radius-sm); color:var(--text-primary);
+  font-family:'DM Sans',sans-serif; font-size:14px; outline:none;
+}
+
+.settings-input.hidden { display:none; }
+
+/* ─── ABOUT — o aspeto da secção Sobre (créditos da PAP) ─── */
+.about-hero {
+  display:flex; flex-direction:column;
+  align-items:center; gap:10px;
+  padding: 32px 0 28px;
+  text-align:center;
+}
+
+.about-logo-wrap {
+  position:relative; width:90px; height:90px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.about-logo-svg { width:72px; height:72px; }
+
+.about-glow {
+  position:absolute; inset:-16px; border-radius:50%;
+  background:radial-gradient(circle,rgba(249,115,22,0.25) 0%,transparent 70%);
+  animation:splashPulse 3s ease-in-out infinite;
+}
+
+.about-project-name {
+  font-family:'Syne',sans-serif; font-size:42px; font-weight:800; letter-spacing:-2px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+.about-version {
+  display:inline-block; padding:3px 12px;
+  background:var(--accent-dim); border:1px solid rgba(249,115,22,0.3);
+  border-radius:100px; font-size:12px; color:var(--accent); font-weight:600;
+}
+
+.about-tagline { color:var(--text-secondary); font-size:15px; }
+
+.about-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px; margin-bottom:14px;
+}
+
+.about-card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px; margin-bottom:14px;
+}
+
+.about-card:last-child { margin-bottom:0; }
+.about-grid .about-card { margin-bottom:0; }
+
+.about-card-icon { font-size:28px; margin-bottom:10px; }
+.about-card h3 {
+  font-family:'Syne',sans-serif; font-size:17px; font-weight:700; margin-bottom:14px;
+}
+
+.about-info-list { display:flex; flex-direction:column; gap:10px; }
+
+.about-info-row {
+  display:flex; flex-direction:column; gap:2px;
+  padding-bottom:10px; border-bottom:1px solid var(--border);
+}
+
+.about-info-row:last-child { border-bottom:none; padding-bottom:0; }
+
+.about-info-label { font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; }
+.about-info-value { font-size:14px; font-weight:500; }
+
+/* Team */
+.team-member {
+  display:flex; align-items:center; gap:12px; margin-bottom:12px;
+}
+
+.member-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--accent-dim); border:1px solid rgba(249,115,22,0.3);
+  display:grid; place-items:center;
+  font-family:'Syne',sans-serif; font-size:13px; font-weight:700;
+  color:var(--accent); flex-shrink:0;
+}
+
+.member-avatar.teacher {
+  background:rgba(99,102,241,0.15); border-color:rgba(99,102,241,0.3);
+  color:#818cf8;
+}
+
+.member-info { display:flex; flex-direction:column; }
+.member-info strong { font-size:14px; font-weight:600; }
+.member-info small  { font-size:12px; color:var(--text-muted); }
+
+.team-divider {
+  height:1px; background:var(--border); margin:4px 0 14px;
+}
+
+/* Hardware */
+.hw-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+.hw-item { display:flex; align-items:center; gap:12px; }
+.hw-icon { font-size:24px; flex-shrink:0; }
+.hw-item div { display:flex; flex-direction:column; }
+.hw-item strong { font-size:14px; }
+.hw-item small { font-size:12px; color:var(--text-muted); }
+
+/* Tech badges */
+.tech-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.tech-badge {
+  padding:5px 12px; border-radius:100px;
+  background:var(--bg-input); border:1px solid var(--border-strong);
+  font-size:13px; color:var(--text-secondary); font-weight:500;
+}
+
+/* School card */
+.school-card {
+  display:flex; flex-direction:column;
+  align-items:center; gap:10px;
+  text-align:center;
+}
+
+.school-info { display:flex; flex-direction:column; gap:4px; align-items:center; }
+.school-info strong { font-size:14px; font-weight:600; }
+.school-info small { font-size:12px; color:var(--text-muted); }
+
+.about-copyright {
+  text-align:center; padding:24px 0 8px;
+  color:var(--text-muted); font-size:13px;
+  display:flex; flex-direction:column; gap:4px;
+}
+
+/* ─── TOAST — as mensagens breves no canto do ecrã ─── */
+.toast {
+  position:fixed; bottom:24px; right:24px;
+  background:var(--bg-card); border:1px solid var(--border-strong);
+  border-radius:var(--radius-sm); padding:11px 18px;
+  font-size:14px; font-weight:500; color:var(--text-primary);
+  box-shadow:0 8px 32px rgba(0,0,0,0.6);
+  opacity:0; transform:translateY(10px);
+  transition:all 0.3s ease; pointer-events:none;
+  z-index:999; max-width:300px;
+}
+
+.toast.show { opacity:1; transform:translateY(0); }
+.toast.success { border-color:rgba(34,197,94,0.5); }
+.toast.error   { border-color:rgba(239,68,68,0.4); }
+.toast.info    { border-color:rgba(249,115,22,0.4); }
+
+/* ─── HAMBURGER — o botão de menu no telemóvel ─── */
+.hamburger {
+  display:none; position:fixed; top:16px; left:16px; z-index:200;
+  width:42px; height:42px; border-radius:10px;
+  background:var(--bg-card); border:1px solid var(--border);
+  color:var(--text-primary); place-items:center; cursor:pointer;
+}
+
+.hamburger i { width:20px; height:20px; }
+
+.overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.6); z-index:90;
+  backdrop-filter:blur(2px);
+}
+
+.overlay.show { display:block; }
+
+/* ─── RESPONSIVE — ajustes para o ecrã ser bem em telemóvel/tablet ─── */
+@media (max-width:900px) {
+  .effects-grid { grid-template-columns:repeat(2,1fr); }
+  .flags-grid   { grid-template-columns:repeat(3,1fr); }
+}
+
+@media (max-width:700px) {
+  :root { --sidebar-w:0px; }
+  .sidebar { transform:translateX(-230px); width:230px; }
+  .sidebar.open { transform:translateX(0); }
+  .hamburger { display:grid; }
+  .main { margin-left:0; }
+  .topbar { padding:18px 18px 0 70px; }
+  .section { padding:16px 16px 32px; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .quick-grid { grid-template-columns:repeat(3,1fr); gap:8px; }
+  .flags-grid { grid-template-columns:repeat(3,1fr); }
+  .effects-grid { grid-template-columns:repeat(2,1fr); }
+  .about-grid { grid-template-columns:1fr; }
+  .toast { left:16px; right:16px; }
+}
+
+@media (max-width:420px) {
+  .stats-grid { grid-template-columns:1fr 1fr; }
+  .quick-grid  { grid-template-columns:1fr 1fr; }
+  .flags-grid  { grid-template-columns:repeat(2,1fr); }
+  .color-row   { flex-direction:column; align-items:flex-start; }
+}
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v2.1 — Lock Screen + Sparkle/Meteor
+   ═══════════════════════════════════════════════ */
+
+/* ─── LOCK SCREEN — o aspeto do ecrã de entrada com password ─── */
+.lock-screen {
+  position: fixed; inset: 0;
+  z-index: 9998; /* fica por baixo do splash (9999) e aparece quando ele desvanece */
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-base);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.lock-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.lock-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(249,115,22,0.12) 0%, transparent 70%);
+  animation: splashPulse 3s ease-in-out infinite;
+}
+
+.lock-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  text-align: center;
+  padding: 0 24px;
+  animation: fadeIn 0.5s ease;
+}
+
+.lock-logo-wrap {
+  position: relative; width: 90px; height: 90px;
+  display: flex; align-items: center; justify-content: center;
+  animation: splashFloat 3s ease-in-out infinite;
+}
+
+.lock-svg {
+  width: 72px; height: 72px;
+  filter: drop-shadow(0 0 20px rgba(249,115,22,0.6));
+}
+
+.lock-glow {
+  position: absolute; inset: -18px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);
+  animation: splashPulse 2s ease-in-out infinite;
+}
+
+.lock-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 40px; font-weight: 800; letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lock-sub {
+  font-size: 14px; color: var(--text-secondary);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+.lock-form {
+  display: flex; flex-direction: column; gap: 10px;
+  width: 100%; max-width: 280px; margin-top: 6px;
+}
+
+.lock-input {
+  width: 100%; padding: 13px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px; text-align: center; letter-spacing: 6px;
+  outline: none;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+.lock-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.lock-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--accent), #fb923c);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all var(--trans);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.lock-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px var(--accent-glow); }
+.lock-btn:active { transform: translateY(0); }
+.lock-btn i { width: 17px; height: 17px; }
+
+.lock-error {
+  font-size: 13px; color: var(--off);
+  min-height: 18px; opacity: 0;
+  transition: opacity var(--trans);
+}
+
+.lock-error.show { opacity: 1; }
+
+.lock-hint {
+  font-size: 12px; color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Shake quando a password está errada */
+.lock-form.shake { animation: lockShake 0.4s ease; }
+
+@keyframes lockShake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-7px); }
+  80% { transform: translateX(7px); }
+}
+
+/* ─── ANIMAÇÕES DOS NOVOS EFEITOS ─── */
+.sparkle-anim {
+  background: #0a0a0f;
+  position: absolute;
+  animation: sparkleFlash 1.2s steps(1) infinite;
+}
+
+@keyframes sparkleFlash {
+  0%   { background: radial-gradient(circle at 15% 50%, #fff 0 15%, #0a0a0f 20%); }
+  20%  { background: radial-gradient(circle at 70% 50%, #ffff88 0 15%, #0a0a0f 20%); }
+  40%  { background: radial-gradient(circle at 40% 50%, #fff 0 15%, #0a0a0f 20%); }
+  60%  { background: radial-gradient(circle at 90% 50%, #ffaaff 0 15%, #0a0a0f 20%); }
+  80%  { background: radial-gradient(circle at 25% 50%, #fff 0 15%, #0a0a0f 20%); }
+}
+
+.meteor-anim {
+  background: linear-gradient(90deg, transparent 0%, #5555ff 40%, #aaaaff 47%, #ffffff 50%, transparent 55%);
+  background-size: 250% 100%;
+  animation: meteorSlide 1.6s linear infinite;
+}
+
+@keyframes meteorSlide {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v2.2 — Lock (design da imagem) + Voz
+   ═══════════════════════════════════════════════ */
+
+/* ─── LOCK: input com cadeado + olho ─── */
+.lock-input-group {
+  position: relative;
+  display: flex; align-items: center;
+  width: 100%;
+}
+
+.lock-input-group .lock-input {
+  padding: 13px 46px;         /* espaço para os ícones dos dois lados */
+  text-align: left; letter-spacing: 2px;
+  font-size: 15px;
+}
+
+.lock-input-group .lock-input::placeholder { letter-spacing: 0.5px; color: var(--text-muted); }
+
+.lock-input-icon {
+  position: absolute; left: 14px;
+  width: 18px; height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.lock-eye {
+  position: absolute; right: 8px;
+  width: 34px; height: 34px;
+  border: none; background: none;
+  color: var(--text-muted);
+  display: grid; place-items: center;
+  cursor: pointer; border-radius: 8px;
+  transition: color var(--trans), background var(--trans);
+}
+
+.lock-eye:hover { color: var(--text-primary); background: var(--bg-card); }
+.lock-eye i { width: 18px; height: 18px; }
+
+/* ─── MICROFONE — o botão e a bolha do controlo por voz ─── */
+.mic-btn.listening {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  animation: micPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+  0%,100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%     { box-shadow: 0 0 0 8px rgba(249,115,22,0); }
+}
+
+.mic-btn.unsupported { opacity: 0.35; cursor: not-allowed; }
+
+/* Pílula com o que está a ser ouvido */
+.voice-pill {
+  position: fixed; top: 20px; left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  padding: 10px 20px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; color: var(--text-primary);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 16px var(--accent-glow);
+  z-index: 998;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  opacity: 0; pointer-events: none;
+  max-width: 90vw;
+}
+
+.voice-pill.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+.voice-pill .voice-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+  animation: pulseDot 1s infinite;
+}
+
+.voice-pill em { font-style: normal; color: var(--accent2); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v2.3 — Bandeiras e Sobre iguais
+   às imagens de referência (sobrepõe os antigos)
+   ═══════════════════════════════════════════════ */
+
+/* ─── BANDEIRAS: cards como na imagem ─── */
+.flag-emoji-hide { display: none; }   /* a imagem mostra só o nome */
+
+.flags-grid {
+  grid-template-columns: repeat(auto-fill, minmax(146px, 1fr));
+  gap: 14px;
+}
+
+.flag-card {
+  padding: 0;
+  gap: 0;
+  border: 2px solid #f2f2f6;              /* contorno claro como na imagem */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #15151f;
+}
+
+.flag-card:hover {
+  border-color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.flag-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.flag-preview {
+  height: 74px;                            /* bandeira grande a preencher o topo */
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.flag-name {
+  display: block;
+  width: 100%;
+  padding: 10px 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Reino Unido — cruz branca com cruz vermelha sobre fundo azul (como na imagem) */
+.flag-preview.gb-flag {
+  background:
+    linear-gradient(90deg,  transparent calc(38% - 6px), #c8102e calc(38% - 6px) calc(38% + 6px), transparent calc(38% + 6px)),
+    linear-gradient(180deg, transparent calc(50% - 6px), #c8102e calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px)),
+    linear-gradient(90deg,  transparent calc(38% - 12px), #ffffff calc(38% - 12px) calc(38% + 12px), transparent calc(38% + 12px)),
+    linear-gradient(180deg, transparent calc(50% - 12px), #ffffff calc(50% - 12px) calc(50% + 12px), transparent calc(50% + 12px)),
+    #012169;
+}
+
+/* Japão — círculo proporcional à nova altura */
+.flag-preview.jp-flag::after { width: 34px; height: 34px; }
+
+/* ─── SOBRE: conteúdo centrado como na imagem ─── */
+#section-about {
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.about-grid {
+  grid-template-columns: repeat(2, minmax(280px, 420px));
+  justify-content: center;      /* as duas caixas centradas */
+  gap: 18px;
+}
+
+.about-card { border-radius: 16px; }
+
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .flags-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* v2.3b — neutralizar desenhos antigos para ficar igual à imagem */
+.flag-preview.gb-flag::before,
+.flag-preview.gb-flag::after { content: none; }   /* a imagem mostra cruz simples (já no background acima) */
+.flag-preview.us-flag::after { content: none; }   /* a imagem mostra apenas as riscas vermelhas/brancas */
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTO v2.4 — Foto no avatar da equipa
+   ═══════════════════════════════════════════════ */
+.member-avatar.avatar-photo {
+  padding: 0;
+  overflow: hidden;               /* recorta a foto em círculo */
+  border: 2px solid var(--accent);/* aro laranja como os outros avatares */
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.member-avatar.avatar-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* preenche o círculo só com a cara */
+  object-position: center 30%;    /* foca ligeiramente mais acima (olhos) */
+  display: block;
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v2.5 — Botões "Adicionar" + editor
+   ═══════════════════════════════════════════════ */
+.btn-add {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 14px;
+  background: transparent;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all var(--trans);
+  margin-top: 4px;
+}
+
+.btn-add:hover {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--accent-dim); box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.btn-add i { width: 18px; height: 18px; }
+
+/* Card "+" na grelha de bandeiras */
+.add-flag-card {
+  border: 2px dashed var(--border-strong) !important;
+  background: transparent !important;
+}
+
+.add-flag-card:hover {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.add-flag-plus {
+  width: 100%; height: 74px;
+  display: grid; place-items: center;
+  color: var(--text-muted);
+  transition: color var(--trans);
+}
+
+.add-flag-card:hover .add-flag-plus { color: var(--accent); }
+.add-flag-plus i { width: 30px; height: 30px; }
+.add-flag-card .flag-name { color: var(--text-secondary); }
+
+/* Botão ✕ para remover itens adicionados */
+.btn-remove-item {
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.08); color: var(--off);
+  display: grid; place-items: center; cursor: pointer;
+  transition: all var(--trans); flex-shrink: 0;
+}
+
+.btn-remove-item:hover { background: rgba(239,68,68,0.2); }
+.btn-remove-item i { width: 14px; height: 14px; }
+
+.flag-card .flag-remove {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(0,0,0,0.55); border: none; color: #fff;
+  display: grid; place-items: center; cursor: pointer;
+  opacity: 0; transition: opacity var(--trans);
+  font-size: 13px; line-height: 1;
+}
+
+.flag-card { position: relative; }
+.flag-card:hover .flag-remove { opacity: 1; }
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v2.7 — Botões "Adicionar" animados
+   no tema (sobrepõe o estilo apagado anterior)
+   ═══════════════════════════════════════════════ */
+
+/* ─── Botão grande (Fita LED) ─── */
+.btn-add {
+  border: 2px dashed rgba(249,115,22,0.45);
+  color: var(--accent);
+  background: linear-gradient(135deg, var(--accent-dim), transparent 60%);
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+/* Brilho a varrer o botão continuamente */
+.btn-add::before {
+  content: '';
+  position: absolute; top: 0; left: -80%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(249,115,22,0.18), transparent);
+  animation: addShimmer 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes addShimmer {
+  0%   { left: -80%; }
+  55%  { left: 120%; }
+  100% { left: 120%; }
+}
+
+.btn-add:hover {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent2);
+  background: var(--accent-dim);
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.btn-add i { transition: transform 0.3s ease; color: var(--accent); }
+.btn-add:hover i { transform: rotate(180deg) scale(1.25); color: var(--accent2); }
+
+/* ─── Botão compacto ao lado do ON/OFF (Lâmpadas) ─── */
+.btn-add-inline {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-dim);
+  border: 1px dashed rgba(249,115,22,0.5);
+  color: var(--accent);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-add-inline::before {
+  content: '';
+  position: absolute; top: 0; left: -90%;
+  width: 70%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(249,115,22,0.22), transparent);
+  animation: addShimmer 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.btn-add-inline:hover {
+  border-style: solid;
+  border-color: var(--accent);
+  background: rgba(249,115,22,0.25);
+  box-shadow: 0 0 12px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn-add-inline i {
+  width: 14px; height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.btn-add-inline:hover i { transform: rotate(180deg) scale(1.2); }
+
+/* No telemóvel, esconder o texto e deixar só o ícone ＋ */
+@media (max-width: 480px) {
+  .btn-add-inline span { display: none; }
+  .btn-add-inline { padding: 8px 10px; }
+}
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v3.0 — Correções: swatches nas fitas
+   extra, ✕ visível nas bandeiras personalizadas
+   ═══════════════════════════════════════════════ */
+
+/* ─── ✕ das bandeiras personalizadas SEMPRE visível ───
+   (a v2.3 pôs overflow:hidden no card, que escondia o ✕;
+   permitimos que o ✕ apareça por cima) */
+.custom-flag-card { overflow: visible; }
+
+.custom-flag-card .flag-remove {
+  opacity: 1;                        /* sempre visível, não só em hover */
+  top: -8px; right: -8px;            /* sai um pouco para fora do card */
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--off);
+  color: #fff;
+  border: 2px solid var(--bg-base);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  font-size: 13px; font-weight: 700;
+  z-index: 5;
+  transition: transform var(--trans), background var(--trans);
+}
+
+.custom-flag-card .flag-remove:hover {
+  transform: scale(1.2);
+  background: #ff2d2d;
+}
+
+/* garantir que a pré-visualização da bandeira personalizada
+   não tapa o botão */
+.custom-flag-card .flag-preview { border-radius: 8px 8px 0 0; }
+
+/* ─── Editor de bandeira: reforçar que os botões respondem ─── */
+#flagEditor .btn-group { margin-top: 4px; }
+#flagEditor .btn-group .btn-sm { cursor: pointer; z-index: 2; position: relative; }
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v3.1 — ✕ menor e redondo (estilo
+   das bandeiras) nas lâmpadas e fitas + toggle
+   e ✕ agrupados à direita
+   ═══════════════════════════════════════════════ */
+
+/* Grupo toggle + ✕ alinhado à direita (lâmpadas) */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ✕ redondo vermelho pequeno, igual ao das bandeiras (imagem 3) */
+.btn-remove-item {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;                       /* redondo em vez de quadrado */
+  background: var(--off);
+  border: 2px solid var(--bg-base);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: transform var(--trans), background var(--trans);
+}
+
+.btn-remove-item:hover {
+  transform: scale(1.2);
+  background: #ff2d2d;
+}
+
+/* Se ainda houver um ícone lucide lá dentro (fitas), encolhe-o */
+.btn-remove-item i,
+.btn-remove-item svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ═══════════════════════════════════════════════
+   ACRESCENTOS v3.2 — Fundo animado do ecrã de login
+   ═══════════════════════════════════════════════ */
+
+/* Grelha subtil + brilhos nos cantos, como no resto da app */
+.lock-screen {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(249,115,22,0.10) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 80%, rgba(250,204,21,0.07) 0%, transparent 45%),
+    var(--bg-base);
+}
+
+.lock-screen::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+
+/* Reforçar o brilho central por trás do logótipo */
+.lock-bg {
+  background: radial-gradient(ellipse at 50% 38%, rgba(249,115,22,0.18) 0%, transparent 60%);
+}
+
+/* Canvas de partículas a flutuar no fundo */
+.lock-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Garantir que o conteúdo fica por cima do fundo */
+.lock-content { z-index: 2; }
+
+/* ═══════════════════════════════════════════════
+   v2.7 — Editor de bandeira com N cores (add/remove)
+   ═══════════════════════════════════════════════ */
+.flag-colors-row {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
+}
+
+.flag-color-chip {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.flag-color-chip .color-wheel {
+  width: 50px; height: 50px; margin: 0;
+}
+
+.flag-color-chip .chip-remove {
+  position: absolute; top: -7px; right: -7px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--off); color: #fff;
+  border: 2px solid var(--bg-card);
+  font-size: 11px; line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer; padding: 0;
+  transition: transform var(--trans), opacity var(--trans);
+}
+
+.flag-color-chip .chip-remove:hover { transform: scale(1.15); }
+
+/* Esconder o botão remover quando só há o mínimo de cores */
+.flag-colors-row.at-min .chip-remove { display: none; }
+
+.btn-add-color {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: var(--radius-sm);
+  background: var(--accent-dim); border: 1px solid rgba(249,115,22,0.35);
+  color: var(--accent); font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: all var(--trans);
+}
+
+.btn-add-color:hover { background: rgba(249,115,22,0.25); }
+.btn-add-color i { width: 13px; height: 13px; }
+.btn-add-color:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Fix: o editor de bandeira (control-card) precisa de esconder de facto */
+#flagEditor.hidden { display: none; }
