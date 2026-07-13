@@ -18,7 +18,7 @@ FluxLight/
 
 ## ⚙️ Configuração Rápida
 
-### 1. Firmware ESP32 (`esp32_code.ino`)
+### 1. Firmware ESP32 (`esp32_codigo.ino`)
 
 Abrir no Arduino IDE e alterar:
 
@@ -122,7 +122,7 @@ const SHELLY_IPS = [
 
 ## 🚀 Como Utilizar
 
-1. Gravar `esp32_code.ino` no ESP32
+1. Gravar `esp32_codigo.ino` no ESP32
 2. Verificar IP no Serial Monitor (115200 baud)
 3. Confirmar `ESP32_IP` no `script.js` (deve ser `http://192.168.1.115`)
 4. Colocar `index.html`, `style.css` e `script.js` na mesma pasta
@@ -135,7 +135,7 @@ const SHELLY_IPS = [
 
 | Componente | Especificação |
 |-----------|--------------|
-| Microcontrolador | ESP32 DevKit V4 |
+| Microcontrolador | ESP32 DevKit C |
 | Fita LED | WS2812B 5m · 300 LEDs |
 | Fonte de alimentação | 5V 10A |
 | Lâmpadas inteligentes | Shelly Bulb RGBW E27 Wi-Fi |
@@ -159,8 +159,6 @@ const SHELLY_IPS = [
 
 ---
 
-*FluxLight · Rafael Figueiredo & Thomas Gonçalves · PAP 2025/2026*
-
 
 ---
 
@@ -176,3 +174,6 @@ Se o formato RPC falhar, tenta o Gen1. Assim funciona com qualquer geração sem
 > **Teste rápido ao receber a lâmpada:** no browser, abrir
 > `http://<IP_DA_LAMPADA>/rpc/Shelly.GetDeviceInfo`.
 > Se devolver JSON → é Gen3 (RPC). Caso contrário, o fallback Gen1 trata do resto.
+
+
+*FluxLight · Rafael Figueiredo & Thomas Gonçalves · PAP 2025/2026*
