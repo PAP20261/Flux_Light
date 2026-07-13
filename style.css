@@ -616,81 +616,56 @@ body::after {
 }
 
 .flag-preview {
+  display:block;
   width:100%; height:60px;
   position:relative; overflow:hidden;
   flex-shrink:0;
+  /* Todas as bandeiras (gradiente ou SVG) preenchem exatamente a mesma caixa */
+  background-size:100% 100%;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-origin:border-box;
+  background-clip:border-box;
 }
 
 .flag-name { font-size:12px; font-weight:600; color:var(--text-primary); }
 
 /* ═══ BANDEIRAS — CSS preciso com cores corretas ═══ */
 
-/* Portugal: Verde | Amarelo | Vermelho (vertical 38/24/38) */
-.pt-flag { background:linear-gradient(90deg, #006600 38%, #ffcc00 38% 62%, #cc0000 62%); }
+/* Portugal: Verde | Vermelho com esfera armilar e escudo das quinas */
+.pt-flag {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20600%20400%27%20preserveAspectRatio%3D%27xMidYMid%20slice%27%3E%20%3Crect%20width%3D%27600%27%20height%3D%27400%27%20fill%3D%27%23f00%27%2F%3E%3Crect%20width%3D%27240%27%20height%3D%27400%27%20fill%3D%27%23060%27%2F%3E%20%3Cg%20transform%3D%27translate%28240%2C200%29%27%3E%20%3Ccircle%20r%3D%2774%27%20fill%3D%27none%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%2710%27%2F%3E%20%3Cellipse%20rx%3D%2774%27%20ry%3D%2728%27%20fill%3D%27none%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%278%27%2F%3E%20%3Cellipse%20rx%3D%2728%27%20ry%3D%2774%27%20fill%3D%27none%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%278%27%2F%3E%20%3Cellipse%20rx%3D%2774%27%20ry%3D%2752%27%20fill%3D%27none%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%277%27%20transform%3D%27rotate%28-23%29%27%2F%3E%20%3Cellipse%20rx%3D%2774%27%20ry%3D%2752%27%20fill%3D%27none%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%277%27%20transform%3D%27rotate%2823%29%27%2F%3E%20%3Cpath%20d%3D%27M-44%20-52%20h88%20v80%20a44%2044%200%200%201%20-44%2044%20a44%2044%200%200%201%20-44%20-44%20z%27%20fill%3D%27%23f00%27%20stroke%3D%27%23ff0%27%20stroke-width%3D%278%27%2F%3E%20%3Cpath%20d%3D%27M-27%20-35%20h54%20v58%20a27%2027%200%200%201%20-27%2027%20a27%2027%200%200%201%20-27%20-27%20z%27%20fill%3D%27%23fff%27%20stroke%3D%27%23039%27%20stroke-width%3D%278%27%2F%3E%20%3Cg%20fill%3D%27%23039%27%3E%20%3Ccircle%20cx%3D%270%27%20cy%3D%27-15%27%20r%3D%275%27%2F%3E%3Ccircle%20cx%3D%270%27%20cy%3D%272%27%20r%3D%275%27%2F%3E%3Ccircle%20cx%3D%270%27%20cy%3D%2719%27%20r%3D%275%27%2F%3E%20%3Ccircle%20cx%3D%27-13%27%20cy%3D%27-6%27%20r%3D%275%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%27-6%27%20r%3D%275%27%2F%3E%20%3Ccircle%20cx%3D%27-13%27%20cy%3D%2711%27%20r%3D%275%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2711%27%20r%3D%275%27%2F%3E%20%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 
-/* Brasil: Verde fundo, losango amarelo, círculo azul+branco */
+/* Brasil: Verde, losango amarelo, globo azul com faixa e estrelas */
 .br-flag {
-  background: #009c3b;
-  position: relative;
-}
-.br-flag::before {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(90deg, transparent 12%, #ffdf00 12% 88%, transparent 88%);
-  clip-path: polygon(12% 0%,88% 0%,100% 50%,88% 100%,12% 100%,0% 50%);
-}
-.br-flag::after {
-  content:''; position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  width:18px; height:18px; border-radius:50%;
-  background:#002776;
-  box-shadow:0 0 0 3px #fff;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20720%20504%27%20preserveAspectRatio%3D%27xMidYMid%20slice%27%3E%20%3Crect%20width%3D%27720%27%20height%3D%27504%27%20fill%3D%27%23009c3b%27%2F%3E%20%3Cpath%20d%3D%27M360%2044%20L676%20252%20L360%20460%20L44%20252%20Z%27%20fill%3D%27%23ffdf00%27%2F%3E%20%3Ccircle%20cx%3D%27360%27%20cy%3D%27252%27%20r%3D%27110%27%20fill%3D%27%23002776%27%2F%3E%20%3CclipPath%20id%3D%27bg%27%3E%3Ccircle%20cx%3D%27360%27%20cy%3D%27252%27%20r%3D%27110%27%2F%3E%3C%2FclipPath%3E%20%3Cg%20clip-path%3D%27url%28%23bg%29%27%3E%20%3Cpath%20d%3D%27M240%20296%20q120%20-50%20244%20-10%20l0%2030%20q-124%20-40%20-244%2010%20z%27%20fill%3D%27%23fff%27%2F%3E%20%3Cg%20fill%3D%27%23fff%27%3E%20%3Ccircle%20cx%3D%27322%27%20cy%3D%27208%27%20r%3D%274%27%2F%3E%3Ccircle%20cx%3D%27398%27%20cy%3D%27220%27%20r%3D%274%27%2F%3E%3Ccircle%20cx%3D%27358%27%20cy%3D%27194%27%20r%3D%273%27%2F%3E%20%3Ccircle%20cx%3D%27300%27%20cy%3D%27236%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27432%27%20cy%3D%27248%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27340%27%20cy%3D%27334%27%20r%3D%274%27%2F%3E%20%3Ccircle%20cx%3D%27402%27%20cy%3D%27322%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27374%27%20cy%3D%27348%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27302%27%20cy%3D%27322%27%20r%3D%273%27%2F%3E%20%3Ccircle%20cx%3D%27432%27%20cy%3D%27304%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27362%27%20cy%3D%27306%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27282%27%20cy%3D%27282%27%20r%3D%273%27%2F%3E%20%3Ccircle%20cx%3D%27420%27%20cy%3D%27340%27%20r%3D%273%27%2F%3E%3Ccircle%20cx%3D%27352%27%20cy%3D%27366%27%20r%3D%272%27%2F%3E%20%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 
 /* Espanha: Vermelho | Amarelo | Vermelho (horizontal 1/2/1) */
-.es-flag { background:linear-gradient(180deg, #c60b1e 25%, #ffc400 25% 75%, #c60b1e 75%); }
+.es-flag { background-image:linear-gradient(180deg, #c60b1e 25%, #ffc400 25% 75%, #c60b1e 75%); }
 
 /* França: Azul | Branco | Vermelho (vertical) */
-.fr-flag { background:linear-gradient(90deg, #002395 33%, #fff 33% 66%, #ed2939 66%); }
+.fr-flag { background-image:linear-gradient(90deg, #002395 33%, #fff 33% 66%, #ed2939 66%); }
 
 /* Alemanha: Preto | Vermelho | Amarelo (horizontal) */
-.de-flag { background:linear-gradient(180deg, #000 33%, #dd0000 33% 66%, #ffce00 66%); }
+.de-flag { background-image:linear-gradient(180deg, #000 33%, #dd0000 33% 66%, #ffce00 66%); }
 
 /* Itália: Verde | Branco | Vermelho (vertical) */
-.it-flag { background:linear-gradient(90deg, #009246 33%, #fff 33% 66%, #ce2b37 66%); }
+.it-flag { background-image:linear-gradient(90deg, #009246 33%, #fff 33% 66%, #ce2b37 66%); }
 
-/* Reino Unido: Azul base com cruz branca e vermelha */
-.gb-flag { background:#012169; position:relative; }
-.gb-flag::before {
-  content:''; position:absolute; inset:0;
-  background:
-    linear-gradient(#fff 0 0) center/100% 30% no-repeat,
-    linear-gradient(#fff 0 0) center/20% 100% no-repeat,
-    linear-gradient(to bottom right, transparent calc(50% - 6px), #fff calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px)),
-    linear-gradient(to bottom left,  transparent calc(50% - 6px), #fff calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px));
-}
-.gb-flag::after {
-  content:''; position:absolute; inset:0;
-  background:
-    linear-gradient(#c8102e 0 0) center/100% 15% no-repeat,
-    linear-gradient(#c8102e 0 0) center/10% 100% no-repeat,
-    linear-gradient(to bottom right, transparent calc(50% - 3px), #c8102e calc(50% - 3px) calc(50% + 3px), transparent calc(50% + 3px)),
-    linear-gradient(to bottom left,  transparent calc(50% - 3px), #c8102e calc(50% - 3px) calc(50% + 3px), transparent calc(50% + 3px));
+/* Reino Unido: Union Jack completa (diagonais + cruz de São Jorge) */
+.gb-flag {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2060%2030%27%20preserveAspectRatio%3D%27xMidYMid%20slice%27%3E%20%3CclipPath%20id%3D%27uk%27%3E%3Cpath%20d%3D%27M30%2C15%20h30%20v15%20z%20v15%20h-30%20z%20h-30%20v-15%20z%20v-15%20h30%20z%27%2F%3E%3C%2FclipPath%3E%20%3Crect%20width%3D%2760%27%20height%3D%2730%27%20fill%3D%27%23012169%27%2F%3E%20%3Cpath%20d%3D%27M0%2C0%20L60%2C30%20M60%2C0%20L0%2C30%27%20stroke%3D%27%23fff%27%20stroke-width%3D%276%27%2F%3E%20%3Cpath%20d%3D%27M0%2C0%20L60%2C30%20M60%2C0%20L0%2C30%27%20clip-path%3D%27url%28%23uk%29%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%274%27%2F%3E%20%3Cpath%20d%3D%27M30%2C0%20v30%20M0%2C15%20h60%27%20stroke%3D%27%23fff%27%20stroke-width%3D%2710%27%2F%3E%20%3Cpath%20d%3D%27M30%2C0%20v30%20M0%2C15%20h60%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%276%27%2F%3E%20%3C%2Fsvg%3E");
 }
 
-/* EUA: Vermelho | Branco | Azul — listras + cantão azul */
+/* EUA: 13 listas + cantão azul com as 50 estrelas */
 .us-flag {
-  background:
-    repeating-linear-gradient(180deg, #b22234 0%, #b22234 7.69%, #fff 7.69%, #fff 15.38%);
-  position:relative;
-}
-.us-flag::after {
-  content:''; position:absolute; top:0; left:0;
-  width:40%; height:53.85%;
-  background:#3c3b6e;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20190%20100%27%20preserveAspectRatio%3D%27none%27%3E%3Crect%20width%3D%27190%27%20height%3D%27100%27%20fill%3D%27%23fff%27%2F%3E%3Cg%20fill%3D%27%23B22234%27%3E%3Crect%20x%3D%270%27%20y%3D%270.0000%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2715.3846%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2730.7692%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2746.1538%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2761.5385%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2776.9231%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3Crect%20x%3D%270%27%20y%3D%2792.3077%27%20width%3D%27190%27%20height%3D%277.6923%27%2F%3E%3C%2Fg%3E%3Crect%20width%3D%2776.000%27%20height%3D%2753.846%27%20fill%3D%27%233C3B6E%27%2F%3E%3Cg%20fill%3D%27%23fff%27%3E%3Cpolygon%20points%3D%276.33%2C2.96%205.79%2C4.64%204.03%2C4.64%205.45%2C5.67%204.91%2C7.34%206.33%2C6.31%207.76%2C7.34%207.21%2C5.67%208.64%2C4.64%206.88%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2719.00%2C2.96%2018.46%2C4.64%2016.70%2C4.64%2018.12%2C5.67%2017.58%2C7.34%2019.00%2C6.31%2020.42%2C7.34%2019.88%2C5.67%2021.30%2C4.64%2019.54%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2731.67%2C2.96%2031.12%2C4.64%2029.36%2C4.64%2030.79%2C5.67%2030.24%2C7.34%2031.67%2C6.31%2033.09%2C7.34%2032.55%2C5.67%2033.97%2C4.64%2032.21%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2744.33%2C2.96%2043.79%2C4.64%2042.03%2C4.64%2043.45%2C5.67%2042.91%2C7.34%2044.33%2C6.31%2045.76%2C7.34%2045.21%2C5.67%2046.64%2C4.64%2044.88%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2757.00%2C2.96%2056.46%2C4.64%2054.70%2C4.64%2056.12%2C5.67%2055.58%2C7.34%2057.00%2C6.31%2058.42%2C7.34%2057.88%2C5.67%2059.30%2C4.64%2057.54%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2769.67%2C2.96%2069.12%2C4.64%2067.36%2C4.64%2068.79%2C5.67%2068.24%2C7.34%2069.67%2C6.31%2071.09%2C7.34%2070.55%2C5.67%2071.97%2C4.64%2070.21%2C4.64%27%2F%3E%3Cpolygon%20points%3D%2712.67%2C8.35%2012.12%2C10.02%2010.36%2C10.02%2011.79%2C11.06%2011.24%2C12.73%2012.67%2C11.69%2014.09%2C12.73%2013.55%2C11.06%2014.97%2C10.02%2013.21%2C10.02%27%2F%3E%3Cpolygon%20points%3D%2725.33%2C8.35%2024.79%2C10.02%2023.03%2C10.02%2024.45%2C11.06%2023.91%2C12.73%2025.33%2C11.69%2026.76%2C12.73%2026.21%2C11.06%2027.64%2C10.02%2025.88%2C10.02%27%2F%3E%3Cpolygon%20points%3D%2738.00%2C8.35%2037.46%2C10.02%2035.70%2C10.02%2037.12%2C11.06%2036.58%2C12.73%2038.00%2C11.69%2039.42%2C12.73%2038.88%2C11.06%2040.30%2C10.02%2038.54%2C10.02%27%2F%3E%3Cpolygon%20points%3D%2750.67%2C8.35%2050.12%2C10.02%2048.36%2C10.02%2049.79%2C11.06%2049.24%2C12.73%2050.67%2C11.69%2052.09%2C12.73%2051.55%2C11.06%2052.97%2C10.02%2051.21%2C10.02%27%2F%3E%3Cpolygon%20points%3D%2763.33%2C8.35%2062.79%2C10.02%2061.03%2C10.02%2062.45%2C11.06%2061.91%2C12.73%2063.33%2C11.69%2064.76%2C12.73%2064.21%2C11.06%2065.64%2C10.02%2063.88%2C10.02%27%2F%3E%3Cpolygon%20points%3D%276.33%2C13.73%205.79%2C15.41%204.03%2C15.41%205.45%2C16.44%204.91%2C18.11%206.33%2C17.08%207.76%2C18.11%207.21%2C16.44%208.64%2C15.41%206.88%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2719.00%2C13.73%2018.46%2C15.41%2016.70%2C15.41%2018.12%2C16.44%2017.58%2C18.11%2019.00%2C17.08%2020.42%2C18.11%2019.88%2C16.44%2021.30%2C15.41%2019.54%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2731.67%2C13.73%2031.12%2C15.41%2029.36%2C15.41%2030.79%2C16.44%2030.24%2C18.11%2031.67%2C17.08%2033.09%2C18.11%2032.55%2C16.44%2033.97%2C15.41%2032.21%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2744.33%2C13.73%2043.79%2C15.41%2042.03%2C15.41%2043.45%2C16.44%2042.91%2C18.11%2044.33%2C17.08%2045.76%2C18.11%2045.21%2C16.44%2046.64%2C15.41%2044.88%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2757.00%2C13.73%2056.46%2C15.41%2054.70%2C15.41%2056.12%2C16.44%2055.58%2C18.11%2057.00%2C17.08%2058.42%2C18.11%2057.88%2C16.44%2059.30%2C15.41%2057.54%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2769.67%2C13.73%2069.12%2C15.41%2067.36%2C15.41%2068.79%2C16.44%2068.24%2C18.11%2069.67%2C17.08%2071.09%2C18.11%2070.55%2C16.44%2071.97%2C15.41%2070.21%2C15.41%27%2F%3E%3Cpolygon%20points%3D%2712.67%2C19.12%2012.12%2C20.79%2010.36%2C20.79%2011.79%2C21.82%2011.24%2C23.50%2012.67%2C22.46%2014.09%2C23.50%2013.55%2C21.82%2014.97%2C20.79%2013.21%2C20.79%27%2F%3E%3Cpolygon%20points%3D%2725.33%2C19.12%2024.79%2C20.79%2023.03%2C20.79%2024.45%2C21.82%2023.91%2C23.50%2025.33%2C22.46%2026.76%2C23.50%2026.21%2C21.82%2027.64%2C20.79%2025.88%2C20.79%27%2F%3E%3Cpolygon%20points%3D%2738.00%2C19.12%2037.46%2C20.79%2035.70%2C20.79%2037.12%2C21.82%2036.58%2C23.50%2038.00%2C22.46%2039.42%2C23.50%2038.88%2C21.82%2040.30%2C20.79%2038.54%2C20.79%27%2F%3E%3Cpolygon%20points%3D%2750.67%2C19.12%2050.12%2C20.79%2048.36%2C20.79%2049.79%2C21.82%2049.24%2C23.50%2050.67%2C22.46%2052.09%2C23.50%2051.55%2C21.82%2052.97%2C20.79%2051.21%2C20.79%27%2F%3E%3Cpolygon%20points%3D%2763.33%2C19.12%2062.79%2C20.79%2061.03%2C20.79%2062.45%2C21.82%2061.91%2C23.50%2063.33%2C22.46%2064.76%2C23.50%2064.21%2C21.82%2065.64%2C20.79%2063.88%2C20.79%27%2F%3E%3Cpolygon%20points%3D%276.33%2C24.50%205.79%2C26.17%204.03%2C26.17%205.45%2C27.21%204.91%2C28.88%206.33%2C27.85%207.76%2C28.88%207.21%2C27.21%208.64%2C26.17%206.88%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2719.00%2C24.50%2018.46%2C26.17%2016.70%2C26.17%2018.12%2C27.21%2017.58%2C28.88%2019.00%2C27.85%2020.42%2C28.88%2019.88%2C27.21%2021.30%2C26.17%2019.54%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2731.67%2C24.50%2031.12%2C26.17%2029.36%2C26.17%2030.79%2C27.21%2030.24%2C28.88%2031.67%2C27.85%2033.09%2C28.88%2032.55%2C27.21%2033.97%2C26.17%2032.21%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2744.33%2C24.50%2043.79%2C26.17%2042.03%2C26.17%2043.45%2C27.21%2042.91%2C28.88%2044.33%2C27.85%2045.76%2C28.88%2045.21%2C27.21%2046.64%2C26.17%2044.88%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2757.00%2C24.50%2056.46%2C26.17%2054.70%2C26.17%2056.12%2C27.21%2055.58%2C28.88%2057.00%2C27.85%2058.42%2C28.88%2057.88%2C27.21%2059.30%2C26.17%2057.54%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2769.67%2C24.50%2069.12%2C26.17%2067.36%2C26.17%2068.79%2C27.21%2068.24%2C28.88%2069.67%2C27.85%2071.09%2C28.88%2070.55%2C27.21%2071.97%2C26.17%2070.21%2C26.17%27%2F%3E%3Cpolygon%20points%3D%2712.67%2C29.88%2012.12%2C31.56%2010.36%2C31.56%2011.79%2C32.59%2011.24%2C34.27%2012.67%2C33.23%2014.09%2C34.27%2013.55%2C32.59%2014.97%2C31.56%2013.21%2C31.56%27%2F%3E%3Cpolygon%20points%3D%2725.33%2C29.88%2024.79%2C31.56%2023.03%2C31.56%2024.45%2C32.59%2023.91%2C34.27%2025.33%2C33.23%2026.76%2C34.27%2026.21%2C32.59%2027.64%2C31.56%2025.88%2C31.56%27%2F%3E%3Cpolygon%20points%3D%2738.00%2C29.88%2037.46%2C31.56%2035.70%2C31.56%2037.12%2C32.59%2036.58%2C34.27%2038.00%2C33.23%2039.42%2C34.27%2038.88%2C32.59%2040.30%2C31.56%2038.54%2C31.56%27%2F%3E%3Cpolygon%20points%3D%2750.67%2C29.88%2050.12%2C31.56%2048.36%2C31.56%2049.79%2C32.59%2049.24%2C34.27%2050.67%2C33.23%2052.09%2C34.27%2051.55%2C32.59%2052.97%2C31.56%2051.21%2C31.56%27%2F%3E%3Cpolygon%20points%3D%2763.33%2C29.88%2062.79%2C31.56%2061.03%2C31.56%2062.45%2C32.59%2061.91%2C34.27%2063.33%2C33.23%2064.76%2C34.27%2064.21%2C32.59%2065.64%2C31.56%2063.88%2C31.56%27%2F%3E%3Cpolygon%20points%3D%276.33%2C35.27%205.79%2C36.94%204.03%2C36.94%205.45%2C37.98%204.91%2C39.65%206.33%2C38.62%207.76%2C39.65%207.21%2C37.98%208.64%2C36.94%206.88%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2719.00%2C35.27%2018.46%2C36.94%2016.70%2C36.94%2018.12%2C37.98%2017.58%2C39.65%2019.00%2C38.62%2020.42%2C39.65%2019.88%2C37.98%2021.30%2C36.94%2019.54%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2731.67%2C35.27%2031.12%2C36.94%2029.36%2C36.94%2030.79%2C37.98%2030.24%2C39.65%2031.67%2C38.62%2033.09%2C39.65%2032.55%2C37.98%2033.97%2C36.94%2032.21%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2744.33%2C35.27%2043.79%2C36.94%2042.03%2C36.94%2043.45%2C37.98%2042.91%2C39.65%2044.33%2C38.62%2045.76%2C39.65%2045.21%2C37.98%2046.64%2C36.94%2044.88%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2757.00%2C35.27%2056.46%2C36.94%2054.70%2C36.94%2056.12%2C37.98%2055.58%2C39.65%2057.00%2C38.62%2058.42%2C39.65%2057.88%2C37.98%2059.30%2C36.94%2057.54%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2769.67%2C35.27%2069.12%2C36.94%2067.36%2C36.94%2068.79%2C37.98%2068.24%2C39.65%2069.67%2C38.62%2071.09%2C39.65%2070.55%2C37.98%2071.97%2C36.94%2070.21%2C36.94%27%2F%3E%3Cpolygon%20points%3D%2712.67%2C40.65%2012.12%2C42.33%2010.36%2C42.33%2011.79%2C43.36%2011.24%2C45.04%2012.67%2C44.00%2014.09%2C45.04%2013.55%2C43.36%2014.97%2C42.33%2013.21%2C42.33%27%2F%3E%3Cpolygon%20points%3D%2725.33%2C40.65%2024.79%2C42.33%2023.03%2C42.33%2024.45%2C43.36%2023.91%2C45.04%2025.33%2C44.00%2026.76%2C45.04%2026.21%2C43.36%2027.64%2C42.33%2025.88%2C42.33%27%2F%3E%3Cpolygon%20points%3D%2738.00%2C40.65%2037.46%2C42.33%2035.70%2C42.33%2037.12%2C43.36%2036.58%2C45.04%2038.00%2C44.00%2039.42%2C45.04%2038.88%2C43.36%2040.30%2C42.33%2038.54%2C42.33%27%2F%3E%3Cpolygon%20points%3D%2750.67%2C40.65%2050.12%2C42.33%2048.36%2C42.33%2049.79%2C43.36%2049.24%2C45.04%2050.67%2C44.00%2052.09%2C45.04%2051.55%2C43.36%2052.97%2C42.33%2051.21%2C42.33%27%2F%3E%3Cpolygon%20points%3D%2763.33%2C40.65%2062.79%2C42.33%2061.03%2C42.33%2062.45%2C43.36%2061.91%2C45.04%2063.33%2C44.00%2064.76%2C45.04%2064.21%2C43.36%2065.64%2C42.33%2063.88%2C42.33%27%2F%3E%3Cpolygon%20points%3D%276.33%2C46.04%205.79%2C47.71%204.03%2C47.71%205.45%2C48.75%204.91%2C50.42%206.33%2C49.39%207.76%2C50.42%207.21%2C48.75%208.64%2C47.71%206.88%2C47.71%27%2F%3E%3Cpolygon%20points%3D%2719.00%2C46.04%2018.46%2C47.71%2016.70%2C47.71%2018.12%2C48.75%2017.58%2C50.42%2019.00%2C49.39%2020.42%2C50.42%2019.88%2C48.75%2021.30%2C47.71%2019.54%2C47.71%27%2F%3E%3Cpolygon%20points%3D%2731.67%2C46.04%2031.12%2C47.71%2029.36%2C47.71%2030.79%2C48.75%2030.24%2C50.42%2031.67%2C49.39%2033.09%2C50.42%2032.55%2C48.75%2033.97%2C47.71%2032.21%2C47.71%27%2F%3E%3Cpolygon%20points%3D%2744.33%2C46.04%2043.79%2C47.71%2042.03%2C47.71%2043.45%2C48.75%2042.91%2C50.42%2044.33%2C49.39%2045.76%2C50.42%2045.21%2C48.75%2046.64%2C47.71%2044.88%2C47.71%27%2F%3E%3Cpolygon%20points%3D%2757.00%2C46.04%2056.46%2C47.71%2054.70%2C47.71%2056.12%2C48.75%2055.58%2C50.42%2057.00%2C49.39%2058.42%2C50.42%2057.88%2C48.75%2059.30%2C47.71%2057.54%2C47.71%27%2F%3E%3Cpolygon%20points%3D%2769.67%2C46.04%2069.12%2C47.71%2067.36%2C47.71%2068.79%2C48.75%2068.24%2C50.42%2069.67%2C49.39%2071.09%2C50.42%2070.55%2C48.75%2071.97%2C47.71%2070.21%2C47.71%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 
 /* Japão: Branco com círculo vermelho central */
-.jp-flag { background:#fff; position:relative; }
+.jp-flag { background-color:#fff; background-image:none; position:relative; }
 .jp-flag::after {
   content:''; position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
@@ -1241,16 +1216,6 @@ body::after {
   text-align: center;
 }
 
-/* Reino Unido — cruz branca com cruz vermelha sobre fundo azul (como na imagem) */
-.flag-preview.gb-flag {
-  background:
-    linear-gradient(90deg,  transparent calc(38% - 6px), #c8102e calc(38% - 6px) calc(38% + 6px), transparent calc(38% + 6px)),
-    linear-gradient(180deg, transparent calc(50% - 6px), #c8102e calc(50% - 6px) calc(50% + 6px), transparent calc(50% + 6px)),
-    linear-gradient(90deg,  transparent calc(38% - 12px), #ffffff calc(38% - 12px) calc(38% + 12px), transparent calc(38% + 12px)),
-    linear-gradient(180deg, transparent calc(50% - 12px), #ffffff calc(50% - 12px) calc(50% + 12px), transparent calc(50% + 12px)),
-    #012169;
-}
-
 /* Japão — círculo proporcional à nova altura */
 .flag-preview.jp-flag::after { width: 34px; height: 34px; }
 
@@ -1273,11 +1238,6 @@ body::after {
   .about-grid { grid-template-columns: 1fr; }
   .flags-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* v2.3b — neutralizar desenhos antigos para ficar igual à imagem */
-.flag-preview.gb-flag::before,
-.flag-preview.gb-flag::after { content: none; }   /* a imagem mostra cruz simples (já no background acima) */
-.flag-preview.us-flag::after { content: none; }   /* a imagem mostra apenas as riscas vermelhas/brancas */
 
 /* ═══════════════════════════════════════════════
    ACRESCENTO v2.4 — Foto no avatar da equipa
@@ -1544,18 +1504,7 @@ body::after {
     var(--bg-base);
 }
 
-.lock-screen::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-}
+/* Grelha quadriculada removida — fundo limpo, só partículas + brilhos radiais */
 
 /* Reforçar o brilho central por trás do logótipo */
 .lock-bg {
