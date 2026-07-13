@@ -10,7 +10,7 @@ FluxLight/
 ├── index.html        ← Interface web (estrutura HTML5)
 ├── style.css         ← Estilos visuais (dark mode premium, responsivo)
 ├── script.js         ← Lógica JavaScript (comunicação REST com ESP32)
-├── esp32_code.ino    ← Firmware Arduino para ESP32 DevKit V4
+├── esp32_codigo.ino  ← Firmware Arduino para ESP32 DevKitC
 └── README.md         ← Este ficheiro
 ```
 
@@ -135,7 +135,7 @@ const SHELLY_IPS = [
 
 | Componente | Especificação |
 |-----------|--------------|
-| Microcontrolador | ESP32 DevKit C |
+| Microcontrolador | ESP32 DevKitC |
 | Fita LED | WS2812B 5m · 300 LEDs |
 | Fonte de alimentação | 5V 10A |
 | Lâmpadas inteligentes | Shelly Bulb RGBW E27 Wi-Fi |
