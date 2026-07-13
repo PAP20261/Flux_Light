@@ -1,8 +1,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════
- *  FluxLight — esp32_code.ino  v2.2
- *  Firmware para ESP32 DevKit V4
- *  ✅ Adicionado: Shelly individual/global + Bandeiras
+ *  FluxLight — esp32_code.ino  v1.0.0
+ *  Firmware para ESP32 DevKitC
  * ═══════════════════════════════════════════════════════════════
  */
 
